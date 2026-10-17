@@ -2,22 +2,32 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
 
+// ===================== WARNA TEMA =====================
+const Color warnaUtama = Color(0xFF0F4C5C);
+const Color warnaAksen = Color(0xFFF2A541);
+const Color warnaLatar = Color(0xFFF4F9F9);
+const Color warnaChip = Color(0xFFE6F2F2);
+
+// ===================== MODEL DATA =====================
 class AlatMusik {
   final String nama;
   final String daerah;
-  final int jumlahPemain;
-  final double rating;
+  final String jenis; // cara memainkan: petik / pukul
+  final int jumlahPemain; // jumlah pemain umumnya
+  final double kesulitan; // skala 1.0 - 5.0
   final bool sudahDipelajari;
 
   const AlatMusik({
     required this.nama,
     required this.daerah,
+    required this.jenis,
     required this.jumlahPemain,
-    required this.rating,
+    required this.kesulitan,
     required this.sudahDipelajari,
   });
 }
 
+// ===================== MyApp (satu-satunya MaterialApp) =====================
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -27,19 +37,17 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.teal,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF0F4C5C),
-        ),
-        scaffoldBackgroundColor: const Color(0xFFF4F9F9),
+        colorScheme: ColorScheme.fromSeed(seedColor: warnaUtama),
+        scaffoldBackgroundColor: warnaLatar,
         appBarTheme: const AppBarTheme(
-          backgroundColor: Color(0xFF0F4C5C),
+          backgroundColor: warnaUtama,
           foregroundColor: Colors.white,
           centerTitle: true,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFF2A541),
-            foregroundColor: const Color(0xFF0F4C5C),
+            backgroundColor: warnaAksen,
+            foregroundColor: warnaUtama,
             padding: const EdgeInsets.symmetric(vertical: 12),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -52,40 +60,45 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// ===================== Halaman Utama (Scaffold) =====================
 class LayarUtama extends StatelessWidget {
   const LayarUtama({super.key});
 
   @override
   Widget build(BuildContext context) {
     const alat1 = AlatMusik(
-      nama: "Angklung",
-      daerah: "Jawa Barat",
-      jumlahPemain: 20,
-      rating: 4.8,
+      nama: "Sasando",
+      daerah: "Nusa Tenggara Timur",
+      jenis: "Petik",
+      jumlahPemain: 1,
+      kesulitan: 4.0,
       sudahDipelajari: true,
     );
 
     const alat2 = AlatMusik(
-      nama: "Sasando",
-      daerah: "Nusa Tenggara Timur",
-      jumlahPemain: 1,
-      rating: 4.6,
+      nama: "Kolintang",
+      daerah: "Sulawesi Utara",
+      jenis: "Pukul",
+      jumlahPemain: 6,
+      kesulitan: 3.5,
       sudahDipelajari: false,
     );
 
     const alat3 = AlatMusik(
-      nama: "Gamelan",
-      daerah: "Jawa Tengah",
-      jumlahPemain: 15,
-      rating: 4.9,
+      nama: "Sape",
+      daerah: "Kalimantan Timur",
+      jenis: "Petik",
+      jumlahPemain: 2,
+      kesulitan: 3.0,
       sudahDipelajari: true,
     );
 
     const alat4 = AlatMusik(
       nama: "Tifa",
       daerah: "Papua",
+      jenis: "Pukul",
       jumlahPemain: 4,
-      rating: 4.3,
+      kesulitan: 2.5,
       sudahDipelajari: false,
     );
 
@@ -108,7 +121,7 @@ class LayarUtama extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xFF0F4C5C),
+                    color: warnaUtama,
                   ),
                 ),
                 SizedBox(height: 12),
@@ -128,7 +141,7 @@ class LayarUtama extends StatelessWidget {
   }
 }
 
-// Custom widget: banner pembuka
+// ===================== Custom Widget 1: Banner =====================
 class BannerKoleksi extends StatelessWidget {
   const BannerKoleksi({super.key});
 
@@ -139,24 +152,20 @@ class BannerKoleksi extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Color(0xFF0F4C5C), Color(0xFF2A9D8F)],
+          colors: [warnaUtama, Color(0xFF2A9D8F)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
-        children: [
-          const Icon(
-            Icons.music_note,
-            size: 48,
-            color: Color(0xFFF2A541),
-          ),
-          const SizedBox(width: 16),
+        children: const [
+          Icon(Icons.music_note, size: 48, color: warnaAksen),
+          SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
                   'Warisan Musik Nusantara',
                   style: TextStyle(
@@ -167,7 +176,7 @@ class BannerKoleksi extends StatelessWidget {
                 ),
                 SizedBox(height: 4),
                 Text(
-                  'Kenali 4 alat musik tradisional dari berbagai daerah',
+                  '4 alat musik tradisional dari 4 daerah di Indonesia',
                   style: TextStyle(fontSize: 13, color: Colors.white70),
                 ),
               ],
@@ -179,7 +188,7 @@ class BannerKoleksi extends StatelessWidget {
   }
 }
 
-// Custom widget: kartu informasi alat musik
+// ===================== Custom Widget 2: Kartu Alat Musik =====================
 class KartuAlatMusik extends StatelessWidget {
   final AlatMusik alat;
 
@@ -198,6 +207,7 @@ class KartuAlatMusik extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // Bagian atas: ikon + nama + daerah
             Row(
               children: [
                 Container(
@@ -225,11 +235,11 @@ class KartuAlatMusik extends StatelessWidget {
                         style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Color(0xFF0F4C5C),
+                          color: warnaUtama,
                         ),
                       ),
                       Text(
-                        alat.daerah,
+                        'Asal: ${alat.daerah}',
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
@@ -243,61 +253,49 @@ class KartuAlatMusik extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 12),
+
+            // Bagian tengah: info singkat
             Container(
               width: double.infinity,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: const Color(0xFFE6F2F2),
+                color: warnaChip,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Wrap(
                 spacing: 16,
                 runSpacing: 8,
                 children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(
-                        Icons.groups,
-                        size: 18,
-                        color: Color(0xFF0F4C5C),
-                      ),
-                      const SizedBox(width: 4),
-                      Text('${alat.jumlahPemain} pemain'),
-                    ],
+                  InfoChip(
+                    ikon: Icons.back_hand,
+                    warna: warnaUtama,
+                    teks: 'Jenis: ${alat.jenis}',
                   ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.star, size: 18, color: Colors.amber),
-                      const SizedBox(width: 4),
-                      Text('${alat.rating}'),
-                    ],
+                  InfoChip(
+                    ikon: Icons.groups,
+                    warna: warnaUtama,
+                    teks: '${alat.jumlahPemain} pemain',
                   ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        alat.sudahDipelajari
-                            ? Icons.check_circle
-                            : Icons.schedule,
-                        size: 18,
-                        color: alat.sudahDipelajari
-                            ? Colors.green
-                            : Colors.orange,
-                      ),
-                      const SizedBox(width: 4),
-                      Text(
-                        alat.sudahDipelajari
-                            ? 'Sudah dipelajari'
-                            : 'Belum dipelajari',
-                      ),
-                    ],
+                  InfoChip(
+                    ikon: Icons.trending_up,
+                    warna: Colors.deepOrange,
+                    teks: 'Kesulitan ${alat.kesulitan}/5',
+                  ),
+                  InfoChip(
+                    ikon: alat.sudahDipelajari
+                        ? Icons.check_circle
+                        : Icons.schedule,
+                    warna: alat.sudahDipelajari ? Colors.green : Colors.orange,
+                    teks: alat.sudahDipelajari
+                        ? 'Sudah dipelajari'
+                        : 'Belum dipelajari',
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 12),
+
+            // Bagian bawah: tombol
             SizedBox(
               width: double.infinity,
               child: ElevatedButton(
@@ -310,6 +308,32 @@ class KartuAlatMusik extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+// ===================== Custom Widget 3: Info Kecil (ikon + teks) =====================
+class InfoChip extends StatelessWidget {
+  final IconData ikon;
+  final Color warna;
+  final String teks;
+
+  const InfoChip({
+    super.key,
+    required this.ikon,
+    required this.warna,
+    required this.teks,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(ikon, size: 18, color: warna),
+        const SizedBox(width: 4),
+        Text(teks),
+      ],
     );
   }
 }
